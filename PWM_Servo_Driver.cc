@@ -68,9 +68,9 @@ class PWM_Servo_Driver {
     wiringPiI2CWriteReg8(__address, __MODE1, oldmode);
     usleep(5);
     wiringPiI2CWriteReg8(__address, __MODE1, oldmode | 0x80);
-}
+  }
 
-void setPWM(int channel, int on, int off) {
+  void setPWM(int channel, int on, int off) {
     // Set a single PWM channel
     wiringPiI2CWriteReg8(__address, __LED0_ON_L + 4 * channel, on & 0xFF);
     wiringPiI2CWriteReg8(__address, __LED0_ON_H + 4 * channel, on >> 8);
