@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from Adafruit_PWM_Servo_Driver import PWM
 import time
 
@@ -30,3 +32,6 @@ while (True):
   time.sleep(1)
   pwm.setPWM(0, 0, servoMax)
   time.sleep(1)
+
+
+
