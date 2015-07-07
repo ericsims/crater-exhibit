@@ -5,8 +5,8 @@
 
 class StepperMotor {
   private:
-    const int _MICROSTEPS = 8;
-    const int _MICROSTEP_CURVE = [0, 50, 98, 142, 180, 212, 236, 250, 255];
+    static const int _MICROSTEPS = 8;
+    static const int _MICROSTEP_CURVE = [0, 50, 98, 142, 180, 212, 236, 250, 255];
     int _revsteps, _motornum, _sec_per_step, _steppingcounter, _currentstep, _PWMA, _PWMB, _BIN1, _BIN2, _AIN1, _AIN2;
     MotorHAT * MC;
     
@@ -52,47 +52,47 @@ class StepperMotor {
       int pwm_a = 255;
       int pwm_b = 255;
       
-      if(style == SINGLE) {
+      if(style == MotorHAT.SINGLE) {
         if((_currentstep / (_MICROSTEPS / 2) % 2) {
           // Odd step
-          if(dir == FORWARD)
+          if(dir == MotorHAT.FORWARD)
             _currentstep += _MICROSTEPS / 2;
           else
             _currentstep -= _MICROSTEP / 2;
         } else {
           // Even step
-          if(dir == FORWARD)
+          if(dir == MotorHAT.FORWARD)
             _currentstep += _MICROSTEPS;
           else
             _currentstep -= _MICROSTEP;
         }
       }
       
-      if(style == DOUBLE) {
+      if(style == MotorHAT.DOUBLE) {
         if(!(_currentstep / (_MICROSTEPS / 2) % 2) {
           // Even step
-          if(dir == FORWARD)
+          if(dir == MotorHAT.FORWARD)
             _currentstep += _MICROSTEPS / 2;
           else
             _currentstep -= _MICROSTEPS / 2;
         } else {
           // Odd step
-          if(dir == FORWARD)
+          if(dir == MotorHAT.FORWARD)
             _currentstep += _MICROSTEPS;
           else
             _currentstep -= _MICROSTEP; 
         }
       }
       
-      if(style == INTERLEAVE) {
-        if(dir == FORWARD)
+      if(style == MotorHAT.INTERLEAVE) {
+        if(dir == MotorHAT.FORWARD)
           _currentstep += _MICROSTEPS / 2;
         else
           _currentstep -= _MICROSTEPS / 2;
       }
       
-      if(style == MICROSTEP) {
-        if(dir == FORWARD)
+      if(style == MotorHAT.MICROSTEP) {
+        if(dir == MotorHAT.FORWARD)
           _currentstep += 1;
         else
           _currentstep -= 1;

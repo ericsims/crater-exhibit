@@ -32,7 +32,7 @@ class PWM {
   static const int __INVRT         = 0x10;
   static const int __OUTDRV        = 0x04;
 
-  PWM_Servo_Driver(int address = 0x40, bool debug = false) {
+  PWM(int address = 0x40, bool debug = false) {
     __debug = debug;
     __address = address;
     if(__debug)

@@ -2,7 +2,7 @@
 #include "PWM_Servo_Driver.cc"
 #include "Motor_Control.cc"
 
-PWM_Servo_Driver pwm;
+PWM pwm;
 
 int main() {
   std::cout << "Hello World!" << std::endl;
