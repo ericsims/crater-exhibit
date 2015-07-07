@@ -1,5 +1,6 @@
 #include <iostream>
 #include "PWM_Servo_Driver.cc"
+#include "Motor_Control.cc"
 
 PWM_Servo_Driver pwm;
 

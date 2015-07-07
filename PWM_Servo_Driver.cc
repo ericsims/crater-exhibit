@@ -3,7 +3,7 @@
 #include <math.h>
 #include <wiringPiI2C.h>
 
-class PWM_Servo_Driver {
+class PWM {
  private:
   bool __debug;
   int __address;
