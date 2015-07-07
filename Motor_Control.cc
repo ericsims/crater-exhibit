@@ -3,6 +3,29 @@
 #include <math.h>
 #include <wiringPiI2C.h>
 
+class MotorHAT {
+  private:
+    int _i2caddr, _frequency;
+    DCMmotor motors[4];
+    StepperMotor steppers[2];
+    PWM _pwm;
+  
+  public:
+    enum STYLE { SINGLE, DOUBLE, INTERLEAVE, MICROSTEP };
+    enum DIRECTION { FORWARD, DOUBLE, INTERLEAVE, MICROSTEP };
+  
+    MotorHat(int addr = 0x60, int freq = 1600) {
+      _i2caddr = addr;
+      _frequency = freq;
+      for(int i = 0; i < 4; i++)
+        motors[i] = new DCMotor(this, i);
+      for(int i = 0; i < 4; i++)
+        steppers[i] = new StepperMotor(this, i)
+      _pwm = PWM (addr, false);
+      _pwm.setPWMFreq(_frequency);
+    }
+};
+
 class StepperMotor {
   private:
     static const int _MICROSTEPS = 8;
@@ -131,25 +154,3 @@ class DCMotor {
   
 };
 
-class MotorHAT {
-  private:
-    int _i2caddr, _frequency;
-    DCMmotor motors[4];
-    StepperMotor steppers[2];
-    PWM _pwm;
-  
-  public:
-    enum STYLE { SINGLE, DOUBLE, INTERLEAVE, MICROSTEP };
-    enum DIRECTION { FORWARD, DOUBLE, INTERLEAVE, MICROSTEP };
-  
-    MotorHat(int addr = 0x60, int freq = 1600) {
-      _i2caddr = addr;
-      _frequency = freq;
-      for(int i = 0; i < 4; i++)
-        motors[i] = new DCMotor(this, i);
-      for(int i = 0; i < 4; i++)
-        steppers[i] = new StepperMotor(this, i)
-      _pwm = PWM (addr, false);
-      _pwm.setPWMFreq(_frequency);
-    }
-};
