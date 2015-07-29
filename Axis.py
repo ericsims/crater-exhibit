@@ -2,6 +2,17 @@
 #from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
 from Limit_Switch import LimitSwitch
 import yaml
+import platform
+import atexit
+import threading
+import random
+if(platform.system() == "Linux"):
+  import RPi.GPIO as GPIO
+  from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
+  ON_PI = 1
+else:
+  ON_PI = 0
+
 
 class Axis:
   settings = 0
