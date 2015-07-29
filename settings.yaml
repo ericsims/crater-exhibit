@@ -1,0 +1,4 @@
+# Setting File
+
+StepperHat:
+  addr: [0x05, 0x06]
