@@ -1,4 +1,4 @@
-# Limit Switch
+# Relay
 
 import platform
 import yaml
@@ -8,7 +8,7 @@ if(platform.system() == "Linux"):
 else:
   ON_PI = 0
   
-class LimitSwitch:
+class Relay:
   settings = 0
   pin = None
   def __init__(self, pin):
@@ -17,20 +17,23 @@ class LimitSwitch:
     f.close()
     self.pin = pin
     if(ON_PI):
-      GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+      GPIO.setup(self.pin, GPIO.OUT)
+      setState(0);
     
   def setPinNumber(self, pin):
     self.pin = pin
     
   def printPin(self):
-    print "Current Limit Switch Pin: "
+    print "Current Relay Pin: "
     print self.getPin()
   
   def getPinNumber(self):
     return self.pin
     
   def getState(self):
+    return currentState
+  
+  def setState(self, state):
     if(ON_PI):
-      return GPIO.input(self.pin)
-    else:
-      return None 
+      GPIO.output(self.pin, state)
+      self.currentState = state

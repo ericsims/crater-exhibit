@@ -28,3 +28,6 @@ class Axis:
   def printMotorAttachments(self):
     print "Current Motors Attached: "
     print self.motors
+    
+  def homeAxis(self):
+    print self.motors[0]["limitSwitch"].getState()
