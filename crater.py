@@ -30,14 +30,18 @@ if(ON_PI):
   mh0 = Adafruit_MotorHAT(0x60)
   mh1 = Adafruit_MotorHAT(0x61)
   
-  
 sol0 = Relay(18, True)
 sol1 = Relay(22, True)
 sol2 = Relay(7, True) 
 
 x = Axis()
 x.attach(Motor(mh0, 1), LimitSwitch(11))
-x.printMotorAttachments()
-x.homeAxis()
 
-time.sleep(2)
+#x.homeAxis()
+
+#time.sleep(1)
+
+
+x.move(1)
+time.sleep(3)
+x.stop()
