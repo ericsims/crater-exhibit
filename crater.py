@@ -35,7 +35,7 @@ sol1 = Relay(22, True)
 sol2 = Relay(7, True) 
 
 x = Axis()
-x.attach(Motor(mh0, 1), LimitSwitch(11))
+x.attach(Motor(mh0, 1), LimitSwitch(11), LimitSwitch(12))
 
 #x.homeAxis()
 
