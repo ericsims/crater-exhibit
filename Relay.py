@@ -18,7 +18,7 @@ class Relay:
     self.pin = pin
     if(ON_PI):
       GPIO.setup(self.pin, GPIO.OUT)
-      setState(0);
+      self.setState(0);
     
   def setPinNumber(self, pin):
     self.pin = pin
