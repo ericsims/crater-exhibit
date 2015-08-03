@@ -30,7 +30,7 @@ class Motor:
     self.invert = invert
     if(ON_PI):
       self.stepper = self.mh.getStepper(200, index)  	# 200 steps/rev, motor port #1
-#      self.st1 = threading.Thread(target=self.stepper_worker, args=(self.stepper, self.randomsteps, self.dir, stepstyles[0],))
+      st1 = threading.Thread(target=self.stepper_worker, args=(self.stepper, 100, 1, Adafruit_MotorHAT.SINGLE,))
       self.st1.start()
       self.stepper.setSpeed(60)  		# 30 RPM
     atexit.register(self.turnOffMotors)
