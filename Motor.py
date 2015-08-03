@@ -24,15 +24,15 @@ class Motor:
 
 
   def __init__(self, motorHat, index, invert = False):
-    self.motorHat = motorHat
+    self.mh = motorHat
     self.st1 = threading.Thread()
     self.motorIndex = index
     self.invert = invert
     if(ON_PI):
-      self.stepper = mh.getStepper(200, self.index)  	# 200 steps/rev, motor port #1
-      self.st1 = threading.Thread(target=stepper_worker, args=(self.stepper, randomsteps, dir, stepstyles[0],))
+      self.stepper = self.mh.getStepper(200, index)  	# 200 steps/rev, motor port #1
+#      self.st1 = threading.Thread(target=self.stepper_worker, args=(self.stepper, self.randomsteps, self.dir, stepstyles[0],))
       self.st1.start()
-      myStepper1.setSpeed(60)  		# 30 RPM
+      self.stepper.setSpeed(60)  		# 30 RPM
     atexit.register(self.turnOffMotors)
 
     
@@ -42,14 +42,14 @@ class Motor:
   # recommended for auto-disabling motors on shutdown!
   def turnOffMotors(self):
     if(ON_PI):
-      mh.getMotor(self.motorIndex * 2 - 1).run(Adafruit_MotorHAT.RELEASE)
-      mh.getMotor(self.motorIndex * 2).run(Adafruit_MotorHAT.RELEASE)
+      self.mh.getMotor(self.motorIndex * 2 - 1).run(Adafruit_MotorHAT.RELEASE)
+      self.mh.getMotor(self.motorIndex * 2).run(Adafruit_MotorHAT.RELEASE)
 
 
   def stepper_worker(stepper, numsteps, direction, style):
     if(ON_PI):
       #print("Steppin!")
-      stepper.step(numsteps, direction, style)
+      self.stepper.step(numsteps, direction, style)
       #print("Done")
 '''
   while (True):

@@ -34,12 +34,9 @@ if(ON_PI):
 sol0 = Relay(18, True)
 sol1 = Relay(22, True)
 sol2 = Relay(7, True) 
-sol0.setState(1)
-sol1.setState(1)
-sol2.setState(1)
 
 x = Axis()
-x.attach(Motor(mh0, 0), LimitSwitch(0))
+x.attach(Motor(mh0, 1), LimitSwitch(11))
 x.printMotorAttachments()
 x.homeAxis()
 
