@@ -11,14 +11,15 @@ else:
 class Relay:
   settings = 0
   pin = None
-  def __init__(self, pin):
+  def __init__(self, pin, invert = False):
     f = open('settings.yaml')
     self.settings = yaml.safe_load(f)
     f.close()
     self.pin = pin
+    self.invert = invert
     if(ON_PI):
       GPIO.setup(self.pin, GPIO.OUT)
-      setState(0);
+      self.setState(0);
     
   def setPinNumber(self, pin):
     self.pin = pin
@@ -35,5 +36,8 @@ class Relay:
   
   def setState(self, state):
     if(ON_PI):
-      GPIO.output(self.pin, state)
+      if(self.invert):
+        GPIO.output(self.pin, 1 - state)
+      else:
+        GPIO.output(self.pin, state)
       self.currentState = state
