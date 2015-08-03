@@ -1,6 +1,7 @@
 # Relay
 
 import platform
+import atexit
 import yaml
 if(platform.system() == "Linux"):
   import RPi.GPIO as GPIO
@@ -20,7 +21,11 @@ class Relay:
     if(ON_PI):
       GPIO.setup(self.pin, GPIO.OUT)
       self.setState(0);
+    atexit.register(self.exit)
     
+  def exit(self):
+    self.setState(0)
+  
   def setPinNumber(self, pin):
     self.pin = pin
     

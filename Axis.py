@@ -22,8 +22,8 @@ class Axis:
     self.settings = yaml.safe_load(f)
     f.close()
     
-  def attach(self, motor, LimitSwitch, direction = 0):
-    self.motors.append({'motor': motor, 'limitSwitch': LimitSwitch, 'direction': direction})
+  def attach(self, motor, LimitSwitch):
+    self.motors.append({'motor': motor, 'limitSwitch': LimitSwitch})
     
   def printMotorAttachments(self):
     print "Current Motors Attached: "

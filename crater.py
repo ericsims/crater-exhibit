@@ -3,6 +3,8 @@
 from Axis import Axis
 from Limit_Switch import LimitSwitch
 from Relay import Relay
+from Motor import Motor
+import time
 import platform
 import yaml
 
@@ -21,6 +23,9 @@ f = open('settings.yaml')
 settings = yaml.safe_load(f)
 f.close()
 
+mh0 = None
+mh1 = None
+
 if(ON_PI):
   mh0 = Adafruit_MotorHAT(0x60)
   mh1 = Adafruit_MotorHAT(0x61)
@@ -28,11 +33,14 @@ if(ON_PI):
   
 sol0 = Relay(18, True)
 sol1 = Relay(22, True)
-sol2 = Relay(7, True)
-sol2.setState(0)
-
+sol2 = Relay(7, True) 
+sol0.setState(1)
+sol1.setState(1)
+sol2.setState(1)
 
 x = Axis()
-x.attach(settings['StepperHat']['addr'][0], 0, LimitSwitch(0), 0)
+x.attach(Motor(mh0, 0), LimitSwitch(0))
 x.printMotorAttachments()
 x.homeAxis()
+
+time.sleep(2)
