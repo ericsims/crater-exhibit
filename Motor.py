@@ -54,7 +54,7 @@ class Motor:
 #      self.stepper.oneStep(self.invert-direction, style)
 
   def degrees(self, degrees, direction=0):
-    self.step(direction, int(round(0.556*degrees)))
+    self.step(1-direction, int(round(0.556*degrees)))
 
   def run(self, direction = 0):
     if(ON_PI):

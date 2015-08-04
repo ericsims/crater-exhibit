@@ -1,26 +1,11 @@
 # Axis Object Declaration
 from Limit_Switch import LimitSwitch
-import yaml
-import platform
-import atexit
-import threading
-import random
-import time
-if(platform.system() == "Linux"):
-  import RPi.GPIO as GPIO
-  from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
-  ON_PI = 1
-else:
-  ON_PI = 0
-
 
 class Axis:
   settings = 0
   motors = []
   def __init__(self):
-    f = open('settings.yaml')
-    self.settings = yaml.safe_load(f)
-    f.close()
+    return
     
   def attach(self, motor, LimitSwitchHome, LimitSwitchEnd):
     self.motors.append({'motor': motor, 'limitSwitchHome': LimitSwitchHome, 'limitSwitchEnd': LimitSwitchEnd})
@@ -33,6 +18,13 @@ class Axis:
     
   def homeAxis(self):
     self.motors[0]['motor'].run()
+  
+  def atHome(self):
+    home = False
+    for i in range(len(self.motors)):
+      home = self.motors[i]['limitSwitchHome'].getState()
+      if home:
+        break
 
   def move(self,direction = 0):
     for i in range(len(self.motors)):

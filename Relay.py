@@ -2,7 +2,7 @@
 
 import platform
 import atexit
-import yaml
+
 if(platform.system() == "Linux"):
   import RPi.GPIO as GPIO
   ON_PI = 1
@@ -12,10 +12,7 @@ else:
 class Relay:
   settings = 0
   pin = None
-  def __init__(self, pin, invert = False):
-    f = open('settings.yaml')
-    self.settings = yaml.safe_load(f)
-    f.close()
+  def __init__(self, pin, invert = True):
     self.pin = pin
     self.invert = invert
     if(ON_PI):

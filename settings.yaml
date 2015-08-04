@@ -1,4 +1,23 @@
 # Setting File
 
 StepperHat:
-  addr: [0x05, 0x06]
+  ddr: [0x60, 0x61]
+  
+Solenoid:
+  0:
+    addr: 18
+    invert: 0
+  1:
+    addr: 22
+    invert: 0
+  2:
+    addr: 7
+    invert: 0
+    
+Feeder:
+  mh: 1
+  index: 1
+
+Axis:
+  X: [{mh: 0, index: 1, invert: 1, homeLimitSwitch: 11, endLimitSwitch: 12}, {mh: 0, index: 1, invert: 1, homeLimitSwitch: 13, endLimitSwitch: 15}]
+  Y: [{mh: 1, index: 1, invert: 1, homeLimitSwitch: 35, endLimitSwitch: 37}]

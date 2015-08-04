@@ -4,6 +4,7 @@ from Axis import Axis
 from Limit_Switch import LimitSwitch
 from Relay import Relay
 from Motor import Motor
+from Feeder import Feeder
 import time
 import platform
 import yaml
@@ -19,6 +20,8 @@ else:
   ON_PI = 0
 
   
+print "Loading settings and initializing"
+  
 f = open('settings.yaml')
 settings = yaml.safe_load(f)
 f.close()
@@ -27,16 +30,39 @@ mh0 = None
 mh1 = None
 
 if(ON_PI):
-  mh0 = Adafruit_MotorHAT(0x60)
-  mh1 = Adafruit_MotorHAT(0x61)
+  mh = [ Adafruit_MotorHAT(settings['StepperHat'][0]), Adafruit_MotorHAT(settings['StepperHat'][1]) ]
+else:
+  mh = [0,0]
   
-sol0 = Relay(18, True)
-sol1 = Relay(22, True)
-sol2 = Relay(7, True) 
+solenoids = settings['Solenoid']
+sol0 = Relay(solenoids[0]['addr'], solenoids[0]['invert'])
+sol1 = Relay(solenoids[1]['addr'], solenoids[1]['invert'])
+sol2 = Relay(solenoids[2]['addr'], solenoids[1]['invert'])
+
+feeder = Feeder(Motor(mh[settings['Feeder']['mh']], settings['Feeder']['index']))
 
 x = Axis()
-x.attach(Motor(mh1, 1,True ), LimitSwitch(11), LimitSwitch(12))
+xSettings = settings['Axis']['X']
+for i in range(len(xSettings)):
+  x.attach(Motor(xSettings[i]['mh'], xSettings[i]['index'], xSettings[i]['invert']), LimitSwitch(xSettings[i]['homeLimitSwitch']), LimitSwitch(xSettings[i]['endLimitSwitch']))
+
+y = Axis()
+ySettings = settings['Axis']['Y']
+for i in range(len(ySettings)):
+  y.attach(Motor(ySettings[i]['mh'], ySettings[i]['index'], ySettings[i]['invert']), LimitSwitch(ySettings[i]['homeLimitSwitch']), LimitSwitch(ySettings[i]['endLimitSwitch']))
+
+print "Ready!"  
+
+print "Homing X and Y Axes"
 x.homeAxis()
+y.homeAxis()
+
+while(not x.atHome() or not y.atHome()) and ON_PI:
+  time.sleep(0.5)
+
+for i in range(8):
+  feeder.index()
+  time.sleep(0.5)
 
 raw_input("Press Enter to continue...")
 
