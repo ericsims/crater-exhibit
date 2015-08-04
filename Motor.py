@@ -53,6 +53,9 @@ class Motor:
       self.stepper.step(steps, direction, style)
 #      self.stepper.oneStep(self.invert-direction, style)
 
+  def degrees(self, degrees, direction=0):
+    self.step(direction, int(round(0.556*degrees)))
+
   def run(self, direction = 0):
     if(ON_PI):
       self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.DOUBLE))
