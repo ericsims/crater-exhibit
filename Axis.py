@@ -22,7 +22,7 @@ class Axis:
     self.settings = yaml.safe_load(f)
     f.close()
     
-  def attach(self, motor, LimitSwitchHome):
+  def attach(self, motor, LimitSwitchHome, LimitSwitchEnd):
     self.motors.append({'motor': motor, 'limitSwitchHome': LimitSwitchHome, 'limitSwitchEnd': LimitSwitchEnd})
     self.motors[-1]['limitSwitchHome'].setCallback(self.motors[-1]['motor'].stop)
     self.motors[-1]['limitSwitchEnd'].setCallback(self.motors[-1]['motor'].stop)
@@ -36,9 +36,9 @@ class Axis:
 
   def move(self,direction = 0):
     for i in range(len(self.motors)):
-      if(direction && self.motors[i]['limitSwitchHome'].getState()):
+      if(direction and self.motors[i]['limitSwitchHome'].getState()):
         self.motors[i]['motor'].run(0)
-      else if(self.motors[i]['limitSwitchEnd'].getState()):
+      elif(self.motors[i]['limitSwitchEnd'].getState()):
         self.motors[i]['motor'].run(1)
 
   def stop(self):

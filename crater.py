@@ -35,13 +35,13 @@ sol1 = Relay(22, True)
 sol2 = Relay(7, True) 
 
 x = Axis()
-x.attach(Motor(mh0, 1), LimitSwitch(11), LimitSwitch(12))
+x.attach(Motor(mh1, 1,True ), LimitSwitch(11), LimitSwitch(12))
 
-#x.homeAxis()
+x.homeAxis()
 
-#time.sleep(1)
+raw_input("Press Enter to continue...")
 
 
-x.move(1)
-time.sleep(3)
+#x.move(1)
+#time.sleep(3)
 x.stop()

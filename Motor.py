@@ -46,14 +46,14 @@ class Motor:
       self.mh.getMotor(self.motorIndex * 2 - 1).run(Adafruit_MotorHAT.RELEASE)
       self.mh.getMotor(self.motorIndex * 2).run(Adafruit_MotorHAT.RELEASE)
 
-  def step(self, direction = 0):
+  def step(self, direction = 0, style = Adafruit_MotorHAT.MICROSTEP):
     if(ON_PI):
 #      self.stepper.step(1, direction, Adafruit_MotorHAT.MICROSTEP)
-      self.stepper.oneStep(direction, Adafruit_MotorHAT.SINGLE)
+      self.stepper.oneStep(self.invert-direction, style)
 
   def run(self, direction = 0):
     if(ON_PI):
-      self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.SINGLE))
+      self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.DOUBLE))
       self.st1.start()      
 
 
@@ -62,8 +62,8 @@ class Motor:
     if(ON_PI):
       #print("Steppin!")
       while(not self.done):
-        self.step(direction)
-        time.sleep(0.010)
+        self.step(direction, style)
+        time.sleep(0.0001)
       #print("Done")
       self.done = False
 
