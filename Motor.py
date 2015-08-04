@@ -46,10 +46,12 @@ class Motor:
       self.mh.getMotor(self.motorIndex * 2 - 1).run(Adafruit_MotorHAT.RELEASE)
       self.mh.getMotor(self.motorIndex * 2).run(Adafruit_MotorHAT.RELEASE)
 
-  def step(self, direction = 0, style = Adafruit_MotorHAT.MICROSTEP):
+  def step(self, direction = 0, steps = 1, style = -1):
     if(ON_PI):
-#      self.stepper.step(1, direction, Adafruit_MotorHAT.MICROSTEP)
-      self.stepper.oneStep(self.invert-direction, style)
+      if(style == -1):
+        style = Adafruit_MotorHAT.DOUBLE
+      self.stepper.step(steps, direction, style)
+#      self.stepper.oneStep(self.invert-direction, style)
 
   def run(self, direction = 0):
     if(ON_PI):
