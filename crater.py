@@ -36,12 +36,8 @@ sol2 = Relay(7, True)
 
 x = Axis()
 x.attach(Motor(mh1, 1,True ), LimitSwitch(11), LimitSwitch(12))
-
 x.homeAxis()
 
 raw_input("Press Enter to continue...")
 
-
-#x.move(1)
-#time.sleep(3)
 x.stop()

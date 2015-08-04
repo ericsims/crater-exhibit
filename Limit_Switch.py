@@ -36,4 +36,5 @@ class LimitSwitch:
       return None 
 
   def setCallback(self, call):
-    GPIO.add_event_detect(self.pin, GPIO.FALLING, callback = call)
+    if(ON_PI):
+      GPIO.add_event_detect(self.pin, GPIO.FALLING, callback = call)
