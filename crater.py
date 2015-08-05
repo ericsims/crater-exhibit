@@ -27,13 +27,11 @@ f = open('settings.yaml')
 settings = yaml.safe_load(f)
 f.close()
 
-mh0 = None
-mh1 = None
+mh = [0, 0]
 
 if(ON_PI):
-  mh = [ Adafruit_MotorHAT(settings['StepperHat'][0]), Adafruit_MotorHAT(settings['StepperHat'][1]) ]
-else:
-  mh = [0,0]
+  mh = [ Adafruit_MotorHAT(settings['StepperHat']['addr'][0]), Adafruit_MotorHAT(settings['StepperHat']['addr'][1]) ]
+
   
 feeder = Feeder(Motor(mh[settings['Feeder']['mh']], settings['Feeder']['index']))
 dropper = Dropper(Relay(settings['Dropper']['solenoid']), LimitSwitch(settings['Dropper']['photoPin']))

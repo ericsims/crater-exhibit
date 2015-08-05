@@ -19,7 +19,7 @@ Feeder:
   index: 1
   
 Dropper:
-  photoPin: 1
+  photoPin: 16
   solenoid:
     pin: 18
     invert: 0
