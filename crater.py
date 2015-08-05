@@ -49,14 +49,19 @@ for i in range(len(ySettings)):
 print "Ready!"  
 
 print "Homing X and Y Axes"
-x.homeAxis()
-y.homeAxis()
+#x.homeAxis()
+#y.homeAxis()
 
-while(not x.atHome() or not y.atHome()) and ON_PI:
-  time.sleep(0.5)
+#while(not x.atHome() or not y.atHome()) and ON_PI:
+#  time.sleep(0.5)
   
 print "X and Y Axes Homed"
 
+while(True):
+#  dropper.drop()
+  feeder.index()
+  time.sleep(2)
 raw_input("Press Enter to continue...")
 
 x.stop()
+y.stop()

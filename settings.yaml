@@ -22,7 +22,7 @@ Dropper:
   photoPin: 16
   solenoid:
     pin: 18
-    invert: 0
+    invert: 1
 
 Axis:
   X: [{mh: 0, index: 1, invert: 1, homeLimitSwitch: 11, endLimitSwitch: 12}, {mh: 0, index: 1, invert: 1, homeLimitSwitch: 13, endLimitSwitch: 15}]

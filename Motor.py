@@ -31,7 +31,7 @@ class Motor:
     self.done = False
     if(ON_PI):
       self.stepper = self.mh.getStepper(200, index)  	# 200 steps/rev, motor port #1
-      self.stepper.setSpeed(50)
+      self.stepper.setSpeed(10)
 #      self.st1 = threading.Thread(target=self.stepper_worker, args=(self.stepper, 100, 0, Adafruit_MotorHAT.DOUBLE))
 #      self.st1.start()
     atexit.register(self.release)
