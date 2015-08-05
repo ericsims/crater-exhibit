@@ -42,6 +42,8 @@ class Motor:
 
   # recommended for auto-disabling motors on shutdown!
   def release(self):
+    self.stop()
+    time.sleep(0.5)
     if(ON_PI):
       self.mh.getMotor(self.motorIndex * 2 - 1).run(Adafruit_MotorHAT.RELEASE)
       self.mh.getMotor(self.motorIndex * 2).run(Adafruit_MotorHAT.RELEASE)

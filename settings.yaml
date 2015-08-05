@@ -1,7 +1,7 @@
 # Setting File
 
 StepperHat:
-  ddr: [0x60, 0x61]
+  addr: [0x60, 0x61]
   
 Solenoid:
   0:
@@ -17,6 +17,12 @@ Solenoid:
 Feeder:
   mh: 1
   index: 1
+  
+Dropper:
+  photoPin: 1
+  solenoid:
+    pin: 18
+    invert: 0
 
 Axis:
   X: [{mh: 0, index: 1, invert: 1, homeLimitSwitch: 11, endLimitSwitch: 12}, {mh: 0, index: 1, invert: 1, homeLimitSwitch: 13, endLimitSwitch: 15}]

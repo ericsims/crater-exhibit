@@ -1,5 +1,4 @@
-from Motor import Motor
-import time
+# Feeder Class
 
 class Feeder:
   def __init__(self, motor):

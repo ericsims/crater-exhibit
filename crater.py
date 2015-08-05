@@ -5,6 +5,7 @@ from Limit_Switch import LimitSwitch
 from Relay import Relay
 from Motor import Motor
 from Feeder import Feeder
+from Dropper import Dropper
 import time
 import platform
 import yaml
@@ -34,12 +35,8 @@ if(ON_PI):
 else:
   mh = [0,0]
   
-solenoids = settings['Solenoid']
-sol0 = Relay(solenoids[0]['addr'], solenoids[0]['invert'])
-sol1 = Relay(solenoids[1]['addr'], solenoids[1]['invert'])
-sol2 = Relay(solenoids[2]['addr'], solenoids[1]['invert'])
-
 feeder = Feeder(Motor(mh[settings['Feeder']['mh']], settings['Feeder']['index']))
+dropper = Dropper(Relay(settings['Dropper']['solenoid']), LimitSwitch(settings['Dropper']['photoPin']))
 
 x = Axis()
 xSettings = settings['Axis']['X']
@@ -59,10 +56,8 @@ y.homeAxis()
 
 while(not x.atHome() or not y.atHome()) and ON_PI:
   time.sleep(0.5)
-
-for i in range(8):
-  feeder.index()
-  time.sleep(0.5)
+  
+print "X and Y Axes Homed"
 
 raw_input("Press Enter to continue...")
 
