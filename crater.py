@@ -39,12 +39,12 @@ dropper = Dropper(Relay(settings['Dropper']['solenoid']), LimitSwitch(settings['
 x = Axis()
 xSettings = settings['Axis']['X']
 for i in range(len(xSettings)):
-  x.attach(Motor(xSettings[i]['mh'], xSettings[i]['index'], xSettings[i]['invert']), LimitSwitch(xSettings[i]['homeLimitSwitch']), LimitSwitch(xSettings[i]['endLimitSwitch']))
+  x.attach(Motor(mh[xSettings[i]['mh']], xSettings[i]['index'], xSettings[i]['invert']), LimitSwitch(xSettings[i]['homeLimitSwitch']), LimitSwitch(xSettings[i]['endLimitSwitch']))
 
 y = Axis()
 ySettings = settings['Axis']['Y']
 for i in range(len(ySettings)):
-  y.attach(Motor(ySettings[i]['mh'], ySettings[i]['index'], ySettings[i]['invert']), LimitSwitch(ySettings[i]['homeLimitSwitch']), LimitSwitch(ySettings[i]['endLimitSwitch']))
+  y.attach(Motor(mh[ySettings[i]['mh']], ySettings[i]['index'], ySettings[i]['invert']), LimitSwitch(ySettings[i]['homeLimitSwitch']), LimitSwitch(ySettings[i]['endLimitSwitch']))
 
 print "Ready!"  
 
