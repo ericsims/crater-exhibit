@@ -17,7 +17,7 @@ class LimitSwitch:
     f.close()
     self.pin = pin
     if(ON_PI):
-      GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+      GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     
   def setPinNumber(self, pin):
     self.pin = pin

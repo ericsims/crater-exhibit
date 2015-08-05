@@ -58,9 +58,12 @@ print "Homing X and Y Axes"
 print "X and Y Axes Homed"
 
 while(True):
-#  dropper.drop()
-  feeder.index()
-  time.sleep(2)
+  while(dropper.isFull()):
+    time.sleep(0.1)
+  time.sleep(0.5)
+  dropper.drop()
+#  feeder.index()
+  time.sleep(0.2)
 raw_input("Press Enter to continue...")
 
 x.stop()
