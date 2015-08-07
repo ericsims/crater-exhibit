@@ -25,5 +25,5 @@ Dropper:
     invert: 1
 
 Axis:
-  X: [{mh: 0, index: 1, invert: 1, homeLimitSwitch: 11, endLimitSwitch: 12}, {mh: 0, index: 1, invert: 1, homeLimitSwitch: 13, endLimitSwitch: 15}]
-  Y: [{mh: 1, index: 1, invert: 1, homeLimitSwitch: 35, endLimitSwitch: 37}]
+  X: [{mh: 0, index: 1, invert: 1, homeLimitSwitch: 11, endLimitSwitch: 12}, {mh: 0, index: 2, invert: 1, homeLimitSwitch: 13, endLimitSwitch: 15}]
+  Y: [{mh: 1, index: 2, invert: 1, homeLimitSwitch: 35, endLimitSwitch: 37}]

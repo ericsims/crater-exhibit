@@ -37,30 +37,46 @@ feeder = Feeder(Motor(mh[settings['Feeder']['mh']], settings['Feeder']['index'])
 dropper = Dropper(Relay(settings['Dropper']['solenoid']), LimitSwitch(settings['Dropper']['photoPin']))
 
 x = Axis()
-xSettings = settings['Axis']['X']
-for i in range(len(xSettings)):
-  x.attach(Motor(mh[xSettings[i]['mh']], xSettings[i]['index'], xSettings[i]['invert']), LimitSwitch(xSettings[i]['homeLimitSwitch']), LimitSwitch(xSettings[i]['endLimitSwitch']))
+#xSettings = settings['Axis']['X']
+#for i in range(len(xSettings)):
+#  x.attach(Motor(mh[xSettings[i]['mh']], xSettings[i]['index'], xSettings[i]['invert']), LimitSwitch(xSettings[i]['homeLimitSwitch']), LimitSwitch(xSettings[i]['endLimitSwitch']))
 
 y = Axis()
-ySettings = settings['Axis']['Y']
-for i in range(len(ySettings)):
-  y.attach(Motor(mh[ySettings[i]['mh']], ySettings[i]['index'], ySettings[i]['invert']), LimitSwitch(ySettings[i]['homeLimitSwitch']), LimitSwitch(ySettings[i]['endLimitSwitch']))
+#ySettings = settings['Axis']['Y']
+#for i in range(len(ySettings)):
+#  y.attach(Motor(mh[ySettings[i]['mh']], ySettings[i]['index'], ySettings[i]['invert']), LimitSwitch(ySettings[i]['homeLimitSwitch']), LimitSwitch(ySettings[i]['endLimitSwitch']))
+
+y.attach(Motor(mh[1], 2, 1), LimitSwitch(35), LimitSwitch(37))
 
 print "Ready!"  
 
 print "Homing X and Y Axes"
 #x.homeAxis()
-#y.homeAxis()
+y.homeAxis()
 
-#while(not x.atHome() or not y.atHome()) and ON_PI:
+#while(not y.atHome()) and ON_PI:
 #  time.sleep(0.5)
   
 print "X and Y Axes Homed"
 
-while(True):
-  dropper.drop()
+#while(True):
+#  dropper.drop()
   
-raw_input("Press Enter to continue...")
+
+done = False
+while(not done):
+  txt = raw_input("Press Enter to continue...")
+  if(txt == "r"):
+    y.move(0)
+  if(txt == "l"):
+    y.move(1)
+  if(txt == "s"):
+    y.stop()
+  if(txt == "q"):
+    y.stop()
+    done = True
+
+#dropper.drop(False)
 
 x.stop()
 y.stop()

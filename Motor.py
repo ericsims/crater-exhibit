@@ -31,7 +31,7 @@ class Motor:
     self.done = False
     if(ON_PI):
       self.stepper = self.mh.getStepper(200, index)  	# 200 steps/rev, motor port #1
-      self.stepper.setSpeed(10)
+      self.stepper.setSpeed(500)
 #      self.st1 = threading.Thread(target=self.stepper_worker, args=(self.stepper, 100, 0, Adafruit_MotorHAT.DOUBLE))
 #      self.st1.start()
     atexit.register(self.release)
@@ -58,19 +58,22 @@ class Motor:
   def degrees(self, degrees, direction=0):
     self.step(1-direction, int(round(0.556*degrees)))
 
-  def run(self, direction = 0):
+  def run(self, direction = 0, lim = 0):
     if(ON_PI):
-      self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.DOUBLE))
+      self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.DOUBLE, lim))
       self.st1.start()      
 
 
 
-  def stepper_worker(self, direction, style):
+  def stepper_worker(self, direction, style, lim = 0):
     if(ON_PI):
       #print("Steppin!")
       while(not self.done):
-        self.step(direction, style)
-        time.sleep(0.0001)
+        self.step(direction, 10, style)
+        if(not lim == 0):
+           if(not lim.getState()):
+             self.done = True
+#        time.sleep(0.0001)
       #print("Done")
       self.done = False
 
