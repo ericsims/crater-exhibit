@@ -7,10 +7,10 @@ class Dropper:
     self.solenoid = solenoid
     self.photocell = photocell
 
-  def drop(self, wait = True):
-    for i in range(50):
+  def drop(self, force = False):
+    for i in range(20):
       time.sleep(0.1)
-      if(self.isFull()):
+      if(self.isFull() or force):
         time.sleep(0.5)
         self.solenoid.setState(1)
         time.sleep(0.5)
@@ -22,4 +22,4 @@ class Dropper:
     time.sleep(0.1)
   
   def isFull(self):
-    return self.photocell.getState()
+    return not self.photocell.getState()

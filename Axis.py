@@ -23,9 +23,10 @@ class Axis:
   def atHome(self):
     home = False
     for i in range(len(self.motors)):
-      home = self.motors[i]['limitSwitchHome'].getState()
+      home = not self.motors[i]['limitSwitchHome'].getState()
       if home:
         break
+    return home
 
   def move(self,direction = 0):
     for i in range(len(self.motors)):

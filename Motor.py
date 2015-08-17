@@ -31,7 +31,7 @@ class Motor:
     self.done = False
     if(ON_PI):
       self.stepper = self.mh.getStepper(200, index)  	# 200 steps/rev, motor port #1
-      self.stepper.setSpeed(500)
+      self.stepper.setSpeed(1000)
 #      self.st1 = threading.Thread(target=self.stepper_worker, args=(self.stepper, 100, 0, Adafruit_MotorHAT.DOUBLE))
 #      self.st1.start()
     atexit.register(self.release)
@@ -40,10 +40,11 @@ class Motor:
   def stop(self, uselessLimitSwitchPinNumber = None):
     self.done = True
 
+
   # recommended for auto-disabling motors on shutdown!
   def release(self):
     self.stop()
-    time.sleep(0.5)
+    time.sleep(0.010)
     if(ON_PI):
       self.mh.getMotor(self.motorIndex * 2 - 1).run(Adafruit_MotorHAT.RELEASE)
       self.mh.getMotor(self.motorIndex * 2).run(Adafruit_MotorHAT.RELEASE)
@@ -60,12 +61,19 @@ class Motor:
 
   def run(self, direction = 0, lim = 0):
     if(ON_PI):
-      self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.DOUBLE, lim))
+      self.done = True
+      while (self.st1.isAlive()):
+        time.sleep(0.010)
+      self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.INTERLEAVE, lim))
       self.st1.start()      
 
 
 
   def stepper_worker(self, direction, style, lim = 0):
+    self.done = False
+    if(self.invert):
+      direction = 1 - direction
+#    print((-2)*self.invert+1)*(direction)
     if(ON_PI):
       #print("Steppin!")
       while(not self.done):
@@ -75,8 +83,7 @@ class Motor:
              self.done = True
 #        time.sleep(0.0001)
       #print("Done")
-      self.done = False
-
+      self.release()
 
   def test(self):
     while (True):

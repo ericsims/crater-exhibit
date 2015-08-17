@@ -46,7 +46,7 @@ y = Axis()
 #for i in range(len(ySettings)):
 #  y.attach(Motor(mh[ySettings[i]['mh']], ySettings[i]['index'], ySettings[i]['invert']), LimitSwitch(ySettings[i]['homeLimitSwitch']), LimitSwitch(ySettings[i]['endLimitSwitch']))
 
-y.attach(Motor(mh[1], 2, 1), LimitSwitch(35), LimitSwitch(37))
+y.attach(Motor(mh[1], 1, 1), LimitSwitch(35), LimitSwitch(37))
 
 print "Ready!"  
 
@@ -54,14 +54,10 @@ print "Homing X and Y Axes"
 #x.homeAxis()
 y.homeAxis()
 
-#while(not y.atHome()) and ON_PI:
-#  time.sleep(0.5)
+while(not y.atHome()) and ON_PI:
+  time.sleep(0.5)
   
 print "X and Y Axes Homed"
-
-#while(True):
-#  dropper.drop()
-  
 
 done = False
 while(not done):
@@ -73,10 +69,11 @@ while(not done):
   if(txt == "s"):
     y.stop()
   if(txt == "q"):
-    y.stop()
     done = True
-
-#dropper.drop(False)
+  if(txt == "drop"):
+    dropper.drop()
+  if(txt == "drop -f"):
+    dropper.drop(True)
 
 x.stop()
 y.stop()
