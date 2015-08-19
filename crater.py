@@ -1,5 +1,6 @@
 # Crater Maker Exhibit
 
+#!/usr/bin/python
 from Axis import Axis
 from Limit_Switch import LimitSwitch
 from Relay import Relay
@@ -8,7 +9,10 @@ from Feeder import Feeder
 from Dropper import Dropper
 import time
 import platform
-import yaml
+
+# Limit Switch Pin Declarations
+
+LS = [11, 12, 13, 15, 35, 37, 38]
 
 if(platform.system() == "Linux"):
   ON_PI = 1
@@ -23,30 +27,21 @@ else:
   
 print "Loading settings and initializing"
   
-f = open('settings.yaml')
-settings = yaml.safe_load(f)
-f.close()
-
 mh = [0, 0]
 
 if(ON_PI):
-  mh = [ Adafruit_MotorHAT(settings['StepperHat']['addr'][0]), Adafruit_MotorHAT(settings['StepperHat']['addr'][1]) ]
+  mh = [ Adafruit_MotorHAT(0x60), Adafruit_MotorHAT(0x61) ]
 
   
-feeder = Feeder(Motor(mh[settings['Feeder']['mh']], settings['Feeder']['index']))
-dropper = Dropper(Relay(settings['Dropper']['solenoid']), LimitSwitch(settings['Dropper']['photoPin']))
+feeder = Feeder(Motor(mh[1], 2))
+dropper = Dropper(Relay(18, 1), LimitSwitch(16)) # Note, pin 16 is the Photocell, not a physical limit switch
 
 x = Axis()
-#xSettings = settings['Axis']['X']
-#for i in range(len(xSettings)):
-#  x.attach(Motor(mh[xSettings[i]['mh']], xSettings[i]['index'], xSettings[i]['invert']), LimitSwitch(xSettings[i]['homeLimitSwitch']), LimitSwitch(xSettings[i]['endLimitSwitch']))
+x.attach(Motor(mh[0], 1, 1), LimitSwitch(LS[2]), LimitSwitch(LS[3]))
+x.attach(Motor(mh[0], 2, 1), LimitSwitch(LS[1]), LimitSwitch(LS[4]))
 
 y = Axis()
-#ySettings = settings['Axis']['Y']
-#for i in range(len(ySettings)):
-#  y.attach(Motor(mh[ySettings[i]['mh']], ySettings[i]['index'], ySettings[i]['invert']), LimitSwitch(ySettings[i]['homeLimitSwitch']), LimitSwitch(ySettings[i]['endLimitSwitch']))
-
-y.attach(Motor(mh[1], 1, 1), LimitSwitch(35), LimitSwitch(37))
+y.attach(Motor(mh[1], 1, 1), LimitSwitch(LS[6]), LimitSwitch(LS[5]))
 
 print "Ready!"  
 
@@ -54,8 +49,10 @@ print "Homing X and Y Axes"
 #x.homeAxis()
 y.homeAxis()
 
+
+# wait for x and y axis to home
 while(not y.atHome()) and ON_PI:
-  time.sleep(0.5)
+  time.sleep(0.5)  
   
 print "X and Y Axes Homed"
 

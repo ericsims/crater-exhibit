@@ -1,7 +1,6 @@
 # Limit Switch
 
 import platform
-import yaml
 if(platform.system() == "Linux"):
   import RPi.GPIO as GPIO
   ON_PI = 1
@@ -12,9 +11,6 @@ class LimitSwitch:
   settings = 0
   pin = None
   def __init__(self, pin):
-    f = open('settings.yaml')
-    self.settings = yaml.safe_load(f)
-    f.close()
     self.pin = pin
     if(ON_PI):
       GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)

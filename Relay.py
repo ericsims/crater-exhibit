@@ -12,9 +12,9 @@ else:
 class Relay:
   settings = 0
   pin = None
-  def __init__(self, settings):
-    self.pin = settings['pin']
-    self.invert = settings['invert']
+  def __init__(self, pin, invert = 0):
+    self.pin = pin
+    self.invert = invert
     if(ON_PI):
       GPIO.setup(self.pin, GPIO.OUT)
       self.setState(0);
