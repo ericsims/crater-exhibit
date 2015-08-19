@@ -12,7 +12,7 @@ import platform
 
 # Limit Switch Pin Declarations
 
-LS = [11, 12, 13, 15, 35, 37, 38]
+LS = [LimitSwitch(11), LimitSwitch(12), LimitSwitch(13), LimitSwitch(15), LimitSwitch(35), LimitSwitch(37), LimitSwitch(38)]
 
 if(platform.system() == "Linux"):
   ON_PI = 1
@@ -37,11 +37,11 @@ feeder = Feeder(Motor(mh[1], 2))
 dropper = Dropper(Relay(18, 1), LimitSwitch(16)) # Note, pin 16 is the Photocell, not a physical limit switch
 
 x = Axis()
-x.attach(Motor(mh[0], 1, 1), LimitSwitch(LS[2]), LimitSwitch(LS[3]))
-x.attach(Motor(mh[0], 2, 1), LimitSwitch(LS[1]), LimitSwitch(LS[4]))
+x.attach(Motor(mh[0], 1, 1), LS[2], LS[3])
+x.attach(Motor(mh[0], 2, 1), LS[1], LS[4])
 
 y = Axis()
-y.attach(Motor(mh[1], 1, 1), LimitSwitch(LS[6]), LimitSwitch(LS[5]))
+y.attach(Motor(mh[1], 1, 1), LS[6], LS[5])
 
 print "Ready!"  
 
@@ -71,6 +71,14 @@ while(not done):
     dropper.drop()
   if(txt == "drop -f"):
     dropper.drop(True)
+  if(txt == "lims"):
+    print "LS 0:" LS[0].getState()
+    print "LS 1:" LS[1].getState()
+    print "LS 2:" LS[2].getState()
+    print "LS 3:" LS[3].getState()
+    print "LS 4:" LS[4].getState()
+    print "LS 5:" LS[5].getState()
+    print "LS 6:" LS[6].getState()
 
 x.stop()
 y.stop()
