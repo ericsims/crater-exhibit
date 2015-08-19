@@ -56,7 +56,7 @@ class Motor:
       self.done = True
       while (self.st1.isAlive()):
         time.sleep(0.010)
-      self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.INTERLEAVE, lim))
+      self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.DOUBLE, lim))
       self.st1.start()      
 
 
@@ -65,17 +65,14 @@ class Motor:
     self.done = False
     if(self.invert):
       direction = 1 - direction
-#    print((-2)*self.invert+1)*(direction)
     if(ON_PI):
-      #print("Steppin!")
       while(not self.done):
-        self.step(direction, 10, style)
+        self.stepper.oneStep(direction, style)
+        self.step(direction, 1, style)
         if(not lim == 0):
-           if(not lim.getState()):
-             self.done = True
-#        time.sleep(0.0001)
-      #print("Done")
-      self.release()
+          if(not lim.getState()):
+            self.done = True
+    self.release()
 
   def test(self):
     while (True):

@@ -2,9 +2,8 @@
 from Limit_Switch import LimitSwitch
 
 class Axis:
-  settings = 0
-  motors = []
   def __init__(self):
+    self.motors = []
     return
     
   def attach(self, motor, LimitSwitchHome, LimitSwitchEnd):
@@ -17,7 +16,6 @@ class Axis:
     print self.motors
     
   def homeAxis(self):
-    #self.motors[0]['motor'].run()
     self.move(0)
 
   def atHome(self):
