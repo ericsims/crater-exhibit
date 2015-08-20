@@ -36,3 +36,9 @@ class Axis:
   def stop(self):
     for i in range(len(self.motors)):
       self.motors[i]['motor'].stop()
+
+  def isMoving(self):
+    moving = False
+    for i in range(len(self.motors)):
+      moving |= (self.motors[i]['motor'].isMoving())
+    return moving

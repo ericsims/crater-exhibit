@@ -72,6 +72,8 @@ class Motor:
         if(not lim == 0):
           if(not lim.getState()):
             self.done = True
+    else:
+      self.done = True
     self.release()
 
   def test(self):
@@ -90,3 +92,5 @@ class Motor:
         self.st1 = threading.Thread(target=self.stepper_worker, args=(self.stepper, randomsteps, dir, stepstyles[random.randint(0,3)],))
         self.st1.start()
         
+  def isMoving(self):
+    return not self.done
