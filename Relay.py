@@ -14,7 +14,7 @@ class Relay:
   pin = None
   def __init__(self, pin, invert = 0):
     self.pin = pin
-    self.invert = invert
+    self.invert = not invert
     if(ON_PI):
       GPIO.setup(self.pin, GPIO.OUT)
       self.setState(0);

@@ -24,7 +24,7 @@ else:
   ON_PI = 0
 
 LS = [LimitSwitch(11), LimitSwitch(12), LimitSwitch(13), LimitSwitch(15), LimitSwitch(35), LimitSwitch(37), LimitSwitch(38)]
-RLY = [Relay(18, 1)]
+RLY = [Relay(18), Relay(22), Relay(7)]
 
   
 print "Loading settings and initializing"

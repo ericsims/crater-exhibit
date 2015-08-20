@@ -13,7 +13,7 @@ class Dropper:
       if(self.isFull() or force):
         time.sleep(0.5)
         self.solenoid.setState(1)
-        time.sleep(0.5)
+        time.sleep(0.25)
         self.solenoid.setState(0)
         time.sleep(0.5)
         return
