@@ -53,7 +53,7 @@ y.homeAxis()
 
 
 # wait for x and y axis to home
-while(not y.atHome() or not x.atHome()) and ON_PI:
+while(not y.atHome()) and ON_PI:
   time.sleep(0.5)  
   
 print "X and Y Axes Homed"
@@ -61,8 +61,10 @@ print "X and Y Axes Homed"
 done = False
 while(not done):
   txt = raw_input("Press Enter to continue...")
-  if(txt == "mv"):
+  if(txt == "Is Y Moving"):
     print y.isMoving()
+  if(txt == "Is X Moving"):
+    print x.isMoving()
   if(txt == "r"):
     y.move(0)
   if(txt == "l"):
