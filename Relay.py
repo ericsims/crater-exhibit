@@ -14,8 +14,8 @@ class Relay:
   settings = 0
   pin = None
   def __init__(self, pin, invert = 0):
-    self.setPinNumber(pin)
     self.invert = not invert
+    self.setPinNumber(pin)
     atexit.register(self.exit)
     
   def exit(self):
