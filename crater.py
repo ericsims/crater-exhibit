@@ -12,7 +12,6 @@ import platform
 
 # Limit Switch Pin Declarations
 
-
 if(platform.system() == "Linux"):
   ON_PI = 1
   from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor

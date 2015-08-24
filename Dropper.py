@@ -8,18 +8,19 @@ class Dropper:
     self.photocell = photocell
 
   def drop(self, force = False):
-    for i in range(20):
+    # Check repeatedly for ball for 1 second
+    for i in range(10):
       time.sleep(0.1)
       if(self.isFull() or force):
-        time.sleep(0.5)
+        # Wait, drop, wait, close, wait
+        time.sleep(0.25)
         self.solenoid.setState(1)
         time.sleep(0.25)
         self.solenoid.setState(0)
-        time.sleep(0.5)
+        time.sleep(0.25)
         return
     print "No Ball Present"
 #  feeder.index()
-    time.sleep(0.1)
   
   def isFull(self):
     return not self.photocell.getState()

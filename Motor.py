@@ -6,6 +6,7 @@ import threading
 import random
 import platform
 
+# Are we on the raspberry pi?
 if(platform.system() == "Linux"):
   ON_PI = 1
   from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_StepperMotor
@@ -15,7 +16,6 @@ else:
 
 class Motor:
 
-
   def __init__(self, motorHat, index, invert = False):
     self.mh = motorHat
     self.st1 = threading.Thread()
@@ -23,17 +23,17 @@ class Motor:
     self.invert = invert
     self.done = False
     if(ON_PI):
+      # Declare stepper motor and set speed
       self.stepper = self.mh.getStepper(200, index)  	# 200 steps/rev, motor port #1
       self.stepper.setSpeed(1000)
-#      self.st1 = threading.Thread(target=self.stepper_worker, args=(self.stepper, 100, 0, Adafruit_MotorHAT.DOUBLE))
-#      self.st1.start()
     atexit.register(self.release)
-#   self.test()
+    # self.test()
    
-  def stop(self, uselessLimitSwitchPinNumber = None):
+  # Stop the motor
+  def stop(self):
     self.done = True
 
-  # auto-disable motors on shutdown
+  # Release motor control
   def release(self):
     self.stop()
     time.sleep(0.010)
@@ -41,16 +41,19 @@ class Motor:
       self.mh.getMotor(self.motorIndex * 2 - 1).run(Adafruit_MotorHAT.RELEASE)
       self.mh.getMotor(self.motorIndex * 2).run(Adafruit_MotorHAT.RELEASE)
 
+  # Step the motor
   def step(self, direction = 0, steps = 1, style = -1):
     if(ON_PI):
       if(style == -1):
+        # default to double stepping
         style = Adafruit_MotorHAT.DOUBLE
       self.stepper.step(steps, direction, style)
-#      self.stepper.oneStep(self.invert-direction, style)
 
+  # Converts degrees to a number of steps
   def degrees(self, degrees, direction=0):
     self.step(1-direction, int(round(0.556*degrees)))
 
+  # Start the stepper thread
   def run(self, direction = 0, lim = 0):
     if(ON_PI):
       self.done = True
@@ -59,8 +62,7 @@ class Motor:
       self.st1 = threading.Thread(target=self.stepper_worker, args=(direction, Adafruit_MotorHAT.DOUBLE, lim))
       self.st1.start()      
 
-
-
+  # Stepper thread
   def stepper_worker(self, direction, style, lim = 0):
     self.done = False
     if(self.invert):
@@ -76,6 +78,7 @@ class Motor:
       self.done = True
     self.release()
 
+  # Test function to randomly increment stepper motor
   def test(self):
     while (True):
       if not self.st1.isAlive():
@@ -91,6 +94,7 @@ class Motor:
         print("%d steps" % randomsteps)
         self.st1 = threading.Thread(target=self.stepper_worker, args=(self.stepper, randomsteps, dir, stepstyles[random.randint(0,3)],))
         self.st1.start()
-        
+  
+  # Check if the motor is currently moving
   def isMoving(self):
     return not self.done

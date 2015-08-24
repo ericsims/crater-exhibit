@@ -6,18 +6,20 @@ class Axis:
     self.motors = []
     return
     
+  # Attach a motor and limit switches to an axis
   def attach(self, motor, LimitSwitchHome, LimitSwitchEnd):
     self.motors.append({'motor': motor, 'limitSwitchHome': LimitSwitchHome, 'limitSwitchEnd': LimitSwitchEnd})
-#    self.motors[-1]['limitSwitchHome'].setCallback(self.motors[-1]['motor'].stop)
-#    self.motors[-1]['limitSwitchEnd'].setCallback(self.motors[-1]['motor'].stop)
-    
+  
+  # Print the motors and limit switches that are attached to this axis
   def printMotorAttachments(self):
     print "Current Motors Attached: "
     print self.motors
     
+  # Move the axis to its home position
   def homeAxis(self):
     self.move(0)
 
+  # Check if all motors are at the home position
   def atHome(self):
     home = False
     for i in range(len(self.motors)):
@@ -26,6 +28,7 @@ class Axis:
         break
     return home
 
+  # Move the axis
   def move(self,direction = 0):
     for i in range(len(self.motors)):
       if(direction == 0 and self.motors[i]['limitSwitchHome'].getState()):
@@ -33,10 +36,12 @@ class Axis:
       elif(direction == 1 and self.motors[i]['limitSwitchEnd'].getState()):
         self.motors[i]['motor'].run(1, self.motors[i]['limitSwitchEnd'])
 
+  # Stop the axis motion
   def stop(self):
     for i in range(len(self.motors)):
       self.motors[i]['motor'].stop()
-
+      
+  # Is the axis moving?
   def isMoving(self):
     moving = False
     for i in range(len(self.motors)):
