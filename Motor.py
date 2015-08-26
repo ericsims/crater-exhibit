@@ -25,7 +25,7 @@ class Motor:
     if(ON_PI):
       # Declare stepper motor and set speed
       self.stepper = self.mh.getStepper(200, index)  	# 200 steps/rev, motor port #1
-      self.stepper.setSpeed(1000)
+      self.stepper.setSpeed(10000)
     atexit.register(self.release)
     # self.test()
    
@@ -42,9 +42,9 @@ class Motor:
       self.mh.getMotor(self.motorIndex * 2).run(Adafruit_MotorHAT.RELEASE)
 
   # Step the motor
-  def step(self, direction = 0, steps = 1, style = -1):
+  def step(self, direction = 0, steps = 1, style = None):
     if(ON_PI):
-      if(style == -1):
+      if(style == None):
         # default to double stepping
         style = Adafruit_MotorHAT.DOUBLE
       self.stepper.step(steps, direction, style)
@@ -68,10 +68,12 @@ class Motor:
     if(self.invert):
       direction = 1 - direction
     if(ON_PI):
-      while(not self.done):
-        self.stepper.oneStep(direction, style)
-        self.step(direction, 1, style)
-        if(not lim == None):
+      if(lim == None):
+        while(not self.done):
+          self.step(direction, 1, style)
+      else:
+        while(not self.done):
+          self.step(direction, 1, style)
           if(not lim.getState()):
             self.done = True
     else:
