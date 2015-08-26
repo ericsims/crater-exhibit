@@ -54,7 +54,7 @@ class Motor:
     self.step(1-direction, int(round(0.556*degrees)))
 
   # Start the stepper thread
-  def run(self, direction = 0, lim = 0):
+  def run(self, direction = 0, lim = None):
     if(ON_PI):
       self.done = True
       while (self.st1.isAlive()):
@@ -63,7 +63,7 @@ class Motor:
       self.st1.start()      
 
   # Stepper thread
-  def stepper_worker(self, direction, style, lim = 0):
+  def stepper_worker(self, direction, style, lim = None):
     self.done = False
     if(self.invert):
       direction = 1 - direction
@@ -71,7 +71,7 @@ class Motor:
       while(not self.done):
         self.stepper.oneStep(direction, style)
         self.step(direction, 1, style)
-        if(not lim == 0):
+        if(not lim == None):
           if(not lim.getState()):
             self.done = True
     else:

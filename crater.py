@@ -9,8 +9,8 @@ from Feeder import Feeder
 from Dropper import Dropper
 import time
 import platform
+import sys
 
-# Limit Switch Pin Declarations
 
 if(platform.system() == "Linux"):
   ON_PI = 1
@@ -26,17 +26,32 @@ LS = [LimitSwitch(11), LimitSwitch(12), LimitSwitch(13), LimitSwitch(15), LimitS
 RLY = [Relay(18), Relay(22), Relay(7)]
 
   
-print "Loading settings and initializing"
   
 mh = [0, 0]
 
-if(ON_PI):
+if (ON_PI):
   mh = [ Adafruit_MotorHAT(0x60), Adafruit_MotorHAT(0x61) ]
 
+if (len(sys.argv) > 1):
+  if sys.argv[1] == "--testMotor":
+    testAxis = Axis()
+    testAxis.attach(Motor(mh[0], 1, 0), None, None)
+    testAxis.attach(Motor(mh[0], 2, 0), None, None)
+    testAxis.attach(Motor(mh[1], 1, 0), None, None)
+    testAxis.attach(Motor(mh[1], 2, 0), None, None)
+    testAxis.homeAxis()
+    raw_input("Press Enter to quit...")
+    testAxis.stop()
+    sys.exit()
+  else:
+    print "Unrecognized parameter"
+    sys.exit(2)
   
 feeder = Feeder(Motor(mh[0], 2))
 dropper = Dropper(RLY[0], LimitSwitch(16)) # Note, pin 16 is the Photocell, not a physical limit switch
 
+
+print "Initializing"
 x = Axis()
 #x.attach(Motor(mh[1], 1, 1), LS[2], LS[3])
 #x.attach(Motor(mh[1], 2, 1), LS[1], LS[4])

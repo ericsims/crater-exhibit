@@ -23,6 +23,8 @@ class Axis:
   def atHome(self):
     home = False
     for i in range(len(self.motors)):
+      if (self.motors[i]['limitSwitchHome'] == None):
+        continue
       home = not self.motors[i]['limitSwitchHome'].getState()
       if home:
         break
@@ -31,7 +33,11 @@ class Axis:
   # Move the axis
   def move(self,direction = 0):
     for i in range(len(self.motors)):
-      if(direction == 0 and self.motors[i]['limitSwitchHome'].getState()):
+      if(direction == 0 and self.motors[i]['limitSwitchHome'] == None):
+        self.motors[i]['motor'].run(0, self.motors[i]['limitSwitchHome'])
+      elif(direction == 1 and self.motors[i]['limitSwitchEnd'] == None):
+        self.motors[i]['motor'].run(1, self.motors[i]['limitSwitchEnd'])
+      elif(direction == 0 and self.motors[i]['limitSwitchHome'].getState()):
         self.motors[i]['motor'].run(0, self.motors[i]['limitSwitchHome'])
       elif(direction == 1 and self.motors[i]['limitSwitchEnd'].getState()):
         self.motors[i]['motor'].run(1, self.motors[i]['limitSwitchEnd'])
